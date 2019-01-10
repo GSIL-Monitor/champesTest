@@ -1,0 +1,18 @@
+#include "dto.jce"
+
+module servant
+{
+
+    //基本返回头数据结构
+    struct ResponsePackage
+    {
+        0  require   int        code;     //响应码
+        1  optional  string     msg;      //返回信息
+    };
+
+    interface HelloWord
+   {     
+      string sayHello();
+   };
+
+};

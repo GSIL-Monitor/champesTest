@@ -1,0 +1,120 @@
+<assembly>
+    <id>test-bin</id>
+    <formats>
+        <format>zip</format> <!--打包文件格式-->
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/classes</outputDirectory>
+            <directory>target/classes</directory>
+        </fileSet>
+        <!--拷贝自测环境的配置 -->
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/classes</outputDirectory>
+            <directory>src/main/resources/selftest</directory>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <!--拷贝公共配置 -->
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/classes</outputDirectory>
+            <directory>src/main/resources/all</directory>
+            <excludes>
+                <exclude>application.properties</exclude>
+                <exclude>shiro.ini</exclude>
+            </excludes>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF</outputDirectory>
+            <directory>WEB-INF</directory>
+            <includes>
+                <include>web.xml</include>
+                <include>services.xml</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/jce</outputDirectory>
+            <directory>WEB-INF/jce</directory>
+        </fileSet>
+
+        <!-- 下面是taf平台需要的文件 -->
+        <fileSet>
+            <outputDirectory>TafTemplateServer/lib</outputDirectory>
+            <directory>taflib</directory>
+        </fileSet>
+        <!-- 创建空目录 -->
+        <fileSet>
+            <outputDirectory>TafTemplateServer/conf</outputDirectory>
+            <directory>taflib</directory>
+            <excludes>
+                <exclude>*</exclude>
+            </excludes>
+        </fileSet>
+
+        <!-- 测试包 -->
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF</outputDirectory>
+            <directory>target</directory>
+            <includes>
+                <include>cham-taftemplate-1.0.0-tests.jar</include>
+            </includes>
+        </fileSet>
+
+        <!-- 自测脚本 -->
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF</outputDirectory>
+            <directory>src/test/scripts/</directory>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+
+        <!-- 把初始化数据表的sql文件拷贝到classes目录 -->
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/classes</outputDirectory>
+            <directory>src/test/resources</directory>
+            <includes>
+                <include>init_mysql.sql</include>
+            </includes>
+        </fileSet>
+
+		<!-- 自测依赖包 -->
+		<fileSet>
+			<outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/lib</outputDirectory>
+			<directory>src/test/3rdlib</directory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
+
+        <!-- 添加记录job name和build number的文件-->
+        <fileSet>
+            <directory>${project.basedir}/</directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>version.properties</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+
+        <!--jcoco目录-->
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/jacoco/bin</outputDirectory>
+            <directory>target/classes</directory>
+            <includes>
+                <include>**/*.class</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/jacoco/src</outputDirectory>
+            <directory>src/main/java</directory>
+        </fileSet>
+    </fileSets>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/lib</outputDirectory>
+            <scope>test</scope>
+        </dependencySet>
+    </dependencySets>   
+</assembly>

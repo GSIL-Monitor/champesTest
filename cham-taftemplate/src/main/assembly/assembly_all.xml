@@ -1,0 +1,54 @@
+<assembly>
+    <id>all-${job.id}-${hudson.version.id}</id>
+    <formats>
+        <format>tgz</format> <!--打包文件格式-->
+    </formats>
+
+    <fileSets>
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/classes</outputDirectory>
+            <directory>target/classes</directory>
+        </fileSet>
+
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/classes</outputDirectory>
+            <directory>src/main/resources/all</directory>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF</outputDirectory>
+            <directory>WEB-INF</directory>
+            <includes>
+                <include>web.xml</include>
+                <include>services.xml</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/jce</outputDirectory>
+            <directory>WEB-INF/jce</directory>
+        </fileSet>
+        <fileSet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/lib</outputDirectory>
+            <directory>WEB-INF/templib</directory>
+        </fileSet>
+        <!-- 下面是taf平台需要的文件 -->
+        <fileSet>
+            <outputDirectory>TafTemplateServer/lib</outputDirectory>
+            <directory>taflib</directory>
+        </fileSet>
+        <!-- 创建空目录 -->
+        <fileSet>
+            <outputDirectory>TafTemplateServer/conf</outputDirectory>
+            <directory>taflib</directory>
+            <excludes>
+                <exclude>*</exclude>
+            </excludes>
+        </fileSet>
+    </fileSets>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>TafTemplateServer/apps/ROOT/WEB-INF/lib</outputDirectory>
+        </dependencySet>
+    </dependencySets>
+</assembly>

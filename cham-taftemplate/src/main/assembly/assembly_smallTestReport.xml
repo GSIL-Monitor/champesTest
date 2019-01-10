@@ -1,0 +1,18 @@
+<assembly>
+    <id>smallTestReport</id>
+    <formats>
+        <format>zip</format> <!--打包文件格式-->
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/target/smallTestCoverage</directory>
+            <outputDirectory>jacoco</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>${project.basedir}/target/surefire-reports</directory>
+            <outputDirectory>junit/xml</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

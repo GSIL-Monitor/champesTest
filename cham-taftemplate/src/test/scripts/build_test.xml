@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="run.junit" default="default" basedir="." xmlns:jacoco="antlib:org.jacoco.ant">
+
+    <property environment="env"/>
+
+    <!--========基本属性设置=======-->
+    <property name="jacoco.dump.ip" value="127.0.0.1"/>
+    <property name="jacoco.dump.port" value="jacocoPort"/>
+
+    <property name="lib" value="lib"/>
+    <property name="classpath" location="."/>
+
+    <!-- 从配置文件中读取相应的版本信息-->
+    <property file="./version.properties" />
+    <property name="JOB_NAME" value="${JOB_NAME}"/>
+    <property name="BUILD_NUMBER" value="${BUILD_NUMBER}"/>
+    <property name="artifactName" value="${artifactName}"/>
+    <property name="versionName" value="${versionName}"/>
+
+    <!--junit测试报告目录-->
+    <property name="report.junit" value="junit"/>
+    <property name="report.junit.xml" value="${report.junit}/xml"/>
+    <property name="report.junit.html" value="${report.junit}/html"/>
+
+    <property name="report.jacoco" value="../jacoco" />
+    <property name="src.dir" value="${report.jacoco}/src" />
+	<property name="class.dir" value="classes" />
+
+    <!--配置运行时classpath-->
+    <path id="classpath.path">
+        <pathelement location="/usr/local/app/taf/cham.TafTemplateServer/bin/apps/ROOT/WEB-INF/classes"/>
+        <pathelement path="${classpath}"/>
+        <fileset dir="${lib}">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir=".">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath refid="classpath.path" />
+    </taskdef>
+
+    <!--任务初始化-->
+    <target name="init">
+        <delete dir="${report.junit}"/>
+        <mkdir dir="${report.junit.xml}"/>
+        <mkdir dir="${report.junit.html}"/>
+    </target>
+
+    <!--配置JUnit测试，打印测试结果-->
+    <target name="test" depends="init">
+        <jacoco:coverage destfile="${report.jacoco}/local.exec">
+            <junit fork="true" forkmode="once" printsummary="yes" showoutput="yes">
+                <!-- 输出测试debug信息.表明是自测环境.这里需要在镜像制作脚本中替换掉ip、port-->
+            	<jvmarg line="-Ddebug=true -Dis.selftest.env=true -Dselftest.ip=self_test_ip -Dselftest.port=self_test_port" />
+                <classpath refid="classpath.path" />
+                <formatter type="xml" usefile="true" />
+                <batchtest todir="${report.junit.xml}" fork="true" haltonfailure="no">
+                    <resources>
+                        <!--需要执行的测试类路径-->
+                        <zipfileset src="./${artifactName}-${versionName}-tests.jar">
+                            <!--<include name="**/**Test.class"/>-->
+                            <include name="**/MiddleTestRunner.class"/>
+                        </zipfileset>
+                    </resources>
+                </batchtest>
+            </junit>
+        </jacoco:coverage>
+
+        <junitreport todir="${report.junit.html}">
+            <fileset dir="${report.junit.xml}">
+                <include name="*.xml"/>
+            </fileset>
+            <report format="frames" todir="${report.junit.html}"/>
+        </junitreport>
+    </target>
+
+    <!-- 生成代码覆盖率报告 -->
+    <target name="runJacocoReport" depends="test">
+        <jacoco:dump address="${jacoco.dump.ip}" port="${jacoco.dump.port}" reset="true" destfile="${report.jacoco}/remote.exec" />
+        <jacoco:merge destfile="${report.jacoco}/merged.exec">
+            <fileset dir="${report.jacoco}" includes="*.exec" />
+        </jacoco:merge>
+        <jacoco:report>
+            <executiondata>
+                <file file="${report.jacoco}/merged.exec" />
+            </executiondata>
+            <structure name="jacoco report">
+                <classfiles>
+                    <fileset dir="${class.dir}">
+                        <include name="com/tencent/**/*.class" />
+                        <!-- 去掉无需统计的测试类-->
+                        <exclude name="**/**Test.class" />
+                        <exclude name="**/small/**" />
+                        <exclude name="**/ScriptRunnerExecInitSql.class" />
+                        <exclude name="**/TestUtils/**" />
+                        <exclude name="**/runner/**"/>
+                    </fileset>
+                </classfiles>
+                <sourcefiles encoding="UTF-8">
+                    <fileset dir="${src.dir}" />
+                </sourcefiles>
+            </structure>
+            <html destdir="${report.jacoco}" />
+            <xml destfile="${report.jacoco}/report.xml"/>
+        </jacoco:report>
+    </target>
+
+    <target name="copyToNginx" depends="runJacocoReport" >
+        <!--delete dir="/ceph/test_report/${JOB_NAME}/${BUILD_NUMBER}"/-->
+        <copy todir="/ceph/test_report/${JOB_NAME}/${BUILD_NUMBER}/middle-test/jacoco" overwrite="true">
+            <fileset dir="${report.jacoco}">
+            </fileset>
+        </copy>
+        <copy todir="/ceph/test_report/${JOB_NAME}/${BUILD_NUMBER}/middle-test/junit/" overwrite="true">
+            <fileset dir="${report.junit}">
+            </fileset>
+        </copy>
+
+    </target>
+
+    <!-- 默认Task -->
+    <target name="default" depends="copyToNginx"/>
+</project>

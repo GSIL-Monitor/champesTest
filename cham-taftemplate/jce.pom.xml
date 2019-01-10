@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>qq-central</groupId>
+    <artifactId>jce2java</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>qq-central</groupId>
+                <artifactId>maven-taf-plugin</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+                <configuration>
+                    <!-- appName、serverName、objName：组成一个TAF名字服务的唯一标识 -->
+                    <!-- 业务app名称 生成proxy代码时无需要指定 -->
+                    <appName>cham</appName>
+                    <!-- 业务服务名称 生成proxy代码时无需要指定 -->
+                    <serverName>TafTemplateServer</serverName>
+                    <!-- 业务servant名称 生成proxy代码时无需要指定 -->
+                    <objName>TafTemplateServerObj</objName>
+                    <!-- jce文件 需要自动生成java代码的jce文件，支持多个 -->
+                    <jceFiles>
+                        <jceFile>WEB-INF/jce/dto.jce</jceFile>
+                        <jceFile>WEB-INF/jce/interface.jce</jceFile>
+                    </jceFiles>
+                    <!-- jce文件编码 -->
+                    <jceFileCharset>UTF-8</jceFileCharset>
+                    <!-- java源文件目录 -->
+                    <srcPath>src/main/java</srcPath>
+                    <!-- java源文件编码 -->
+                    <charset>UTF-8</charset>
+                    <!-- 生成Java接口文件的包前缀 -->
+                    <packagePrefixName>com.tencent.cham.taftemplate.jce</packagePrefixName>
+                    <!-- 是否生成Servant代码，false时只生成proxy代码 -->
+                    <withServant>true</withServant>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

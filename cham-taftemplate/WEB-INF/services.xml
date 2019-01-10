@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+    <!-- 服务启动监听器 eg:服务启动时加载配置文件，注册自定义命令等 -->
+    <listener>
+        <listener-class>com.tencent.cham.taftemplate.ServerListener</listener-class>
+    </listener>
+    
+    <!-- mm监控/日志相关 -->
+    <listener>
+      <listener-class>com.tencent.tc.monitor.mm.listener.MmStartListener
+      </listener-class>
+    </listener>
+
+    <!-- service name 与管理平台的servant obj保持一致 -->
+    <service name="HelloWordObj">
+        <home-api>com.tencent.cham.taftemplate.jce.servant.HelloWordServant</home-api>
+        <home-class>com.tencent.cham.taftemplate.deploy.HelloWordServantImpl</home-class>
+    </service>
+
+</services>

@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tencent.cham</groupId>
+    <artifactId>cham-taftemplate</artifactId>
+    <version>1.0.0</version>
+    <name>cham-taftemplate</name>
+   
+    <properties>
+        <job.id/>
+        <hudson.version.id/>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 是否跳过打包测试包，默认为false-->
+        <isSkipAssemblyTest>false</isSkipAssemblyTest>
+        <!--- 是否在包名后追加assemblyId，默认为true-->
+        <isAppendAssemblyId>true</isAppendAssemblyId>
+    </properties>
+
+    <dependencies>
+        <!--taf 服务包 -->
+    	<dependency>
+			<groupId>qq-central</groupId>
+			<artifactId>taf-server</artifactId>
+			<version>3.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>qq-central</groupId>
+			<artifactId>taf-proxy</artifactId>
+			<version>3.0.0-SNAPSHOT</version>
+		</dependency>
+		<!--taf client 调用包 -->
+		<dependency>
+			<groupId>qq-central</groupId>
+			<artifactId>nami_core</artifactId>
+			<version>1.0.2-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.qq.distributedContext</groupId>
+		  <artifactId>distributedContext</artifactId>
+		  <version>1.0.0-SNAPSHOT</version>
+		</dependency>		
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+		
+		<!-- 接入bugly监控依赖包 -->
+		<dependency>
+			<groupId>com.tencent.bugly</groupId>
+			<artifactId>framework-crashreport</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.qq.jce.wup</groupId>
+			<artifactId>wup</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.tencent.rdm</groupId>
+			<artifactId>rqd-protocol</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<!-- 使用bugly mm监控功能包 -->
+		<dependency>
+			<groupId>com.tencent.bugly</groupId>
+			<artifactId>framework-monitor</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>		
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        
+	    <dependency>
+	      <groupId>org.aspectj</groupId>
+	      <artifactId>aspectjrt</artifactId>
+	      <version>1.8.7</version>
+	    </dependency>
+    
+		<dependency>
+			<groupId>io.zipkin.brave</groupId>
+			<artifactId>brave-core</artifactId>
+			<version>4.3.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.zipkin.brave</groupId>
+			<artifactId>brave-spancollector-scribe</artifactId>
+			<version>4.3.3</version>
+		</dependency>
+    
+        <!-- 增加自动上报mm监控 -->
+        <dependency>
+            <groupId>com.tencent.tc</groupId>
+            <artifactId>tc-mm</artifactId>
+            <version>0.0.4-SNAPSHOT</version>
+        </dependency> 
+		
+        <!--jacoco 依赖包 -->
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>org.jacoco.core</artifactId>
+            <version>0.7.7.201606060606</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>org.jacoco.report</artifactId>
+            <version>0.7.7.201606060606</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>org.jacoco.agent</artifactId>
+            <version>0.7.7.201606060606</version>
+            <classifier>runtime</classifier>
+        </dependency>
+
+        <!-- powermock依赖包,没有是有mock可以去掉 -->
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.6.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4-rule-agent</artifactId>
+            <version>1.6.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.6.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- 使用powermockrule,避免与@Category注解冲突 -->
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4-rule</artifactId>
+            <version>1.6.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-classloading-xstream</artifactId>
+            <version>1.6.5</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- powermock依赖包end -->
+
+        <!-- 使用远程仓库的checkstyle规则文件-->
+        <dependency>
+            <groupId>com.qq</groupId>
+            <artifactId>bugly_checks</artifactId>
+            <version>1.0.2</version>
+            <type>xml</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+           <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <fork>true</fork>
+                    <verbose>true</verbose>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+                    
+            <!--checkstyle检查  -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <configLocation>${settings.localRepository}/com/qq/bugly_checks/1.0.2/bugly_checks-1.0.2.xml</configLocation>
+                    <linkXRef>false</linkXRef>
+					<excludes>**/jce/**/**</excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <failOnViolation>false</failOnViolation>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>7.1.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <outputDirectory>bin</outputDirectory>
+					<tarLongFileMode>gnu</tarLongFileMode>
+                    <finalName>TafTemplateServer</finalName>
+                </configuration>
+
+                <executions>
+                    <!-- 构建包含所有环境的配置文件的包 -->
+                    <execution>
+                        <id>make-all</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <appendAssemblyId>${isAppendAssemblyId}</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly_all.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+
+                    <!--构建自测环境的包-->
+                    <execution>
+                        <id>make-test</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <appendAssemblyId>true</appendAssemblyId>
+                            <!-- 是否跳过当前包-->
+                            <skipAssembly>${isSkipAssemblyTest}</skipAssembly>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly_test.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+
+                    <!-- 生成小型测试结果报告 -->
+                    <execution>
+                        <id>make-smallTestRport</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <appendAssemblyId>true</appendAssemblyId>
+                            <!-- 是否跳过当前包-->
+                            <skipAssembly>${isSkipAssemblyTest}</skipAssembly>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly_smallTestReport.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+            </plugin>
+
+            <!-- maven构建时生成代码覆盖率 -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.7.201606060606</version>
+                <configuration>
+                    <includes></includes>
+                    <excludes>
+                        <exclude>**/jce/**/*</exclude>
+                        <exclude>**/**Test.class</exclude>
+                        <exclude>**/dao/factory/**</exclude>
+                        <exclude>**/TestUtils/**</exclude>
+                        <exclude>**/runner/**</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- 插桩到字节码中 -->
+                        <id>instrument-classes</id>
+                        <goals>
+                            <goal>instrument</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <!-- 恢复插桩前的字节码 -->
+                        <id>restore-instrumented-classes</id>
+                        <goals>
+                            <goal>restore-instrumented-classes</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <!-- 生成覆盖率报告 -->
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>target/smallTestCoverage/coverage.exec</dataFile>
+                            <!-- 指定报告的生成目录 -->
+                            <outputDirectory>target/smallTestCoverage</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <jacoco-agent.destfile>target/smallTestCoverage/coverage.exec</jacoco-agent.destfile>
+                    </systemPropertyVariables>
+                    <includes>
+                        <!-- 小型测试的入口 -->
+                        <include>**/runner/SmallTestRunner.java</include>
+                        <!-- 冒烟测试的入口 -->
+                        <include>**/runner/SmokeTestRunner.java</include>
+                    </includes>
+
+                    <!-- 使用powermockrule会通不过字节码校验,这里需要去掉校验步骤 -->
+                    <argLine>-Xverify:none</argLine>
+                </configuration>
+            </plugin>
+	        
+	          <!-- aspectj aop 代码静态编译入代码  -->       
+		      <plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>aspectj-maven-plugin</artifactId>
+		        <version>1.9</version>
+		        <dependencies>
+		          <dependency>
+		            <groupId>org.aspectj</groupId>
+		            <artifactId>aspectjtools</artifactId>
+		            <version>1.8.7</version>
+		          </dependency>
+		        </dependencies>		        
+		        <configuration>
+		          <source>1.8</source>
+		          <target>1.8</target>
+		          <verbose>true</verbose>
+		          <complianceLevel>1.8</complianceLevel>
+		          <showWeaveInfo>true</showWeaveInfo>
+		          <aspectLibraries>
+		            <aspectLibrary>
+		              <groupId>com.tencent.bugly.brave</groupId>
+		              <artifactId>brave-taf</artifactId>
+		            </aspectLibrary>
+		          </aspectLibraries>      
+		        </configuration>
+		        <executions>
+		          <execution>
+		            <goals>
+		              <goal>compile</goal>
+		            </goals>
+		          </execution>
+		        </executions>
+		      </plugin>		        
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>internal.releases</id>
+            <name>internal repository for releases</name>
+            <url>http://maven.oa.com/nexus/content/repositories/packages/</url>
+        </repository>
+        <snapshotRepository>
+            <id>internal.snapshots</id>
+            <name>internal repository for snapshots</name>
+            <url>http://maven.oa.com/nexus/content/repositories/mysnapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>development</id>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>http://maven.oa.com/nexus/content/repositories/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>central</id>
+                    <url>http://maven.oa.com/nexus/content/repositories/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+
+                <pluginRepository>
+                    <id>mqq</id>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                        <checksumPolicy>fail</checksumPolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                        <checksumPolicy>fail</checksumPolicy>
+                    </snapshots>
+                    <name>Mqq Internal Repository</name>
+                    <!-- <url>http://trm.wsd.com/trm/repository/mqq</url> -->
+                    <url>http://maven.oa.com/nexus/content/repositories/mqq/</url>
+                    <layout>default</layout>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+</project>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <servers>
+        <server>
+            <id>internal.releases</id>
+            <username>deploy</username>
+            <password>rr1023RR@!</password>
+        </server>
+
+        <server>
+            <id>internal.snapshots</id>
+            <username>deploy</username>
+            <password>rr1023RR@!</password>
+        </server>
+    </servers>
+</settings>
